@@ -1,5 +1,5 @@
 import os
-import csv  # Corrige o erro: Adicionando a importação do módulo CSV.
+import csv 
 
 class ContractController:
     def __init__(self, file_path="data/contratos.csv"):
@@ -20,7 +20,7 @@ class ContractController:
                 reader = csv.DictReader(file)
                 contracts = [row for row in reader]
         except FileNotFoundError:
-            pass  # Arquivo ainda não existe
+            pass  
         return contracts
 
     def save_contracts(self, contracts):

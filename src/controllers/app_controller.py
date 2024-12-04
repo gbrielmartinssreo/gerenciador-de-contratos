@@ -17,17 +17,17 @@ class AppController:
     def show_home_view(self):
         """Mostra a tela inicial."""
         if self.current_view:
-            self.current_view.destroy()  # Remove a visualização atual
+            self.current_view.destroy()  
         self.current_view = HomeView(self.root, self)
 
     def show_contract_view(self):
         """Mostra a visualização de contratos."""
         if self.current_view:
-            self.current_view.destroy()  # Remove a visualização atual
+            self.current_view.destroy()  
         self.current_view = ContractView(self.root, self)
 
     def show_add_contract_view(self):
         """Mostra a tela de adicionar contrato."""
         if self.current_view:
-            self.current_view.destroy()  # Remove a visualização atual
+            self.current_view.destroy()  
         self.current_view = AddContractView(self.root, self)

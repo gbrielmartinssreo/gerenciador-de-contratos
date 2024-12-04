@@ -2,3 +2,4 @@ prototipo/
 config/
 src/controllers/__pycache__/
 src/views/__pycache__/
+.~lock.contratos.csv#
