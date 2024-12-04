@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from tkinter import ttk
+from datetime import datetime
 
 class ContractView(ctk.CTkFrame):
     def __init__(self, root, controller):
@@ -18,6 +19,11 @@ class ContractView(ctk.CTkFrame):
     def create_table(self):
         headers = ["ID", "Cliente", "Data de Início", "Data de Término", "Status", "Valor"]
         contracts = self.controller.contract_controller.load_contracts()
+
+        contracts = sorted(
+            contracts, 
+            key=lambda x: datetime.strptime(x["Data de Término"], "%Y-%m-%d")
+        )
 
         tree = ttk.Treeview(self, columns=headers, show="headings", height=10)
         for header in headers:
