@@ -20,5 +20,11 @@ class HomeView(ctk.CTkFrame):
         add_contract_button = ctk.CTkButton(self, text="Adicionar Novo Contrato", command=self.controller.show_add_contract_view)
         add_contract_button.pack(pady=10)
 
+        
+        filter_by_days_button = ctk.CTkButton(
+            self, text="Filtrar Contratos por Dias", command=self.controller.show_filter_by_days_view
+        )
+        filter_by_days_button.pack(pady=10)
+
         exit_button = ctk.CTkButton(self, text="Sair", command=self.controller.root.quit)
         exit_button.pack(pady=10)

@@ -2,6 +2,7 @@ from controllers.contract_controller import ContractController
 from views.home_view import HomeView
 from views.contract_view import ContractView
 from views.add_contract_view import AddContractView
+from views.filter_by_days_view import FilterByDaysView
 
 class AppController:
     def __init__(self):
@@ -31,3 +32,8 @@ class AppController:
         if self.current_view:
             self.current_view.destroy()  
         self.current_view = AddContractView(self.root, self)
+
+    def show_filter_by_days_view(self):
+        if self.current_view:
+            self.current_view.destroy()
+        self.current_view = FilterByDaysView(self.root, self)
