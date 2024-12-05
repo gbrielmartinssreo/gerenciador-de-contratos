@@ -17,20 +17,28 @@ class ContractView(ctk.CTkFrame):
         back_button.pack(pady=10)
 
     def create_table(self):
-        headers = ["ID", "Cliente", "Data de Início", "Data de Término", "Status", "Valor"]
+        headers = ["Descrição do Contrato", "Categoria", "Data de Vencimento", "Fornecedor"]
         contracts = self.controller.contract_controller.load_contracts()
 
         contracts = sorted(
             contracts, 
-            key=lambda x: datetime.strptime(x["Data de Término"], "%Y-%m-%d")
+            key=lambda x: datetime.strptime(x["Data de Vencimento"], "%d/%m/%Y")
         )
 
         tree = ttk.Treeview(self, columns=headers, show="headings", height=10)
+
+        column_widths = {
+            "Descrição do Contrato": 300,
+            "Categoria": 150,
+            "Data de Vencimento": 150,
+            "Fornecedor": 200,
+        }
+
         for header in headers:
             tree.heading(header, text=header)
-            tree.column(header, anchor="center", width=100)
+            tree.column(header, anchor="center", width=column_widths.get(header, 150))
 
         for contract in contracts:
             tree.insert("", "end", values=tuple(contract.values()))
 
-        tree.pack(pady=10)
+        tree.pack(pady=10, fill="x")  

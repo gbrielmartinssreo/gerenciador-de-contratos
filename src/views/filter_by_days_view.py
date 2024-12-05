@@ -2,6 +2,7 @@ import customtkinter as ctk
 from datetime import datetime, timedelta
 from tkinter import ttk
 
+
 class FilterByDaysView(ctk.CTkFrame):
     def __init__(self, root, controller):
         super().__init__(root)
@@ -37,15 +38,17 @@ class FilterByDaysView(ctk.CTkFrame):
         self.display_table(filtered_contracts)
 
     def get_contracts_due_in_days(self, contracts, days):
-        """Retorna contratos que vencem nos próximos 'days' dias."""
         filtered = []
         now = datetime.now()
         max_date = now + timedelta(days=days)
 
         for contract in contracts:
-            end_date = datetime.strptime(contract["Data de Término"], "%Y-%m-%d")
-            if now <= end_date <= max_date:
-                filtered.append(contract)
+            try:
+                end_date = datetime.strptime(contract["Data de Vencimento"], "%d/%m/%Y")
+                if now <= end_date <= max_date:
+                    filtered.append(contract)
+            except ValueError:
+                continue  
 
         return filtered
 
@@ -54,7 +57,7 @@ class FilterByDaysView(ctk.CTkFrame):
         for widget in self.table_frame.winfo_children():
             widget.destroy()
 
-        headers = ["ID", "Cliente", "Data de Início", "Data de Término", "Status", "Valor"]
+        headers = ["Descrição do Contrato", "Categoria", "Data de Vencimento", "Fornecedor"]
 
         tree = ttk.Treeview(self.table_frame, columns=headers, show="headings", height=10)
         for header in headers:
