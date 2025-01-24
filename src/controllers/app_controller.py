@@ -3,6 +3,8 @@ from views.home_view import HomeView
 from views.contract_view import ContractView
 from views.add_contract_view import AddContractView
 from views.filter_by_days_view import FilterByDaysView
+from views.cotacao_view import CotacaoView
+
 
 class AppController:
     def __init__(self):
@@ -37,3 +39,8 @@ class AppController:
         if self.current_view:
             self.current_view.destroy()
         self.current_view = FilterByDaysView(self.root, self)
+
+    def show_cotacao_view(self):
+        if self.current_view:
+            self.current_view.destroy()
+        self.current_view = CotacaoView(self.root, self)

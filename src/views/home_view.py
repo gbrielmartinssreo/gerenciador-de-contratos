@@ -25,6 +25,9 @@ class HomeView(ctk.CTkFrame):
             self, text="Filtrar Contratos por Dias", command=self.controller.show_filter_by_days_view
         )
         filter_by_days_button.pack(pady=10)
+        
+        cotacao_button = ctk.CTkButton(self, text="Ver Cotações", command=self.controller.show_cotacao_view)
+        cotacao_button.pack(pady=10)
 
         exit_button = ctk.CTkButton(self, text="Sair", command=self.controller.root.quit)
         exit_button.pack(pady=10)
