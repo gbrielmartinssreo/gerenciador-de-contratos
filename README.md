@@ -17,27 +17,23 @@ Este projeto foi desenvolvido utilizando **Python** com as bibliotecas **CustomT
 
 ## 🛠 Instalação e execução
 
-1.  Clone o repositório:
-    ```bash
-    git clone https://github.com/gbrielmartinssreo/gerenciador-de-contratos.git
-    ```
-2.  Navegue até o diretório do projeto:
+1.  Navegue até o diretório do projeto:
     ```bash
     cd gerenciador-de-contratos
     ```
-3.  Certifique-se de ter o python instalado:
+2.  Certifique-se de ter o python instalado:
     ```python
     python --version
     ```
-4.  Instale as dependências:
+3.  Instale as dependências:
     ```bash
     pip install -r requirements.txt
     ```
-5.  Navegue até o diretório `src`:
+4.  Navegue até o diretório `src`:
     ```bash
     cd src
     ```
-6.  Rode o programa:
+5.  Rode o programa:
     ```python
     python main.py
     ```
