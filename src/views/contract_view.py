@@ -17,8 +17,9 @@ class ContractView(ctk.CTkFrame):
         back_button.pack(pady=10)
 
     def create_table(self):
-        headers = ["Descrição do Contrato", "Categoria", "Data de Vencimento", "Fornecedor"]
+        headers = ["Descrição do Contrato", "Categoria", "Data de Vencimento", "Fornecedor", "Valor do Contrato", "Moeda", "Valor em Reais"]
         contracts = self.controller.contract_controller.load_contracts()
+        cotacao_dolar, cotacao_euro, cotacao_btc = self.controller.get_cotacoes()
 
         contracts = sorted(
             contracts, 
@@ -32,6 +33,9 @@ class ContractView(ctk.CTkFrame):
             "Categoria": 150,
             "Data de Vencimento": 150,
             "Fornecedor": 200,
+            "Valor do Contrato": 150,
+            "Moeda": 80,
+            "Valor em Reais": 150
         }
 
         for header in headers:
@@ -39,6 +43,22 @@ class ContractView(ctk.CTkFrame):
             tree.column(header, anchor="center", width=column_widths.get(header, 150))
 
         for contract in contracts:
-            tree.insert("", "end", values=tuple(contract.values()))
-
-        tree.pack(pady=10, fill="x")  
+            valor_contrato = float(contract["Valor do Contrato"])
+            moeda = contract["Moeda"]
+            
+            valor_em_reais = self.converter_para_reais(valor_contrato, moeda, cotacao_dolar, cotacao_euro, cotacao_btc)
+            
+            tree.insert("", "end", values=(*contract.values(), f"R$ {valor_em_reais:.2f}"))
+        tree.pack(pady=10, fill="x")
+    
+    def converter_para_reais(self, valor_contrato, moeda, cotacao_dolar, cotacao_euro, cotacao_btc):
+        if cotacao_dolar is None or cotacao_euro is None or cotacao_btc is None:
+            return valor_contrato
+        if moeda == "USD":
+             return valor_contrato * cotacao_dolar
+        elif moeda == "EUR":
+            return valor_contrato * cotacao_euro
+        elif moeda == "BTC":
+            return valor_contrato * cotacao_btc
+        else:
+            return valor_contrato

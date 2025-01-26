@@ -1,6 +1,5 @@
 import os
-import csv 
-
+import csv
 
 class ContractController:
     def __init__(self, file_path="data/contratos.csv"):
@@ -21,13 +20,13 @@ class ContractController:
                 reader = csv.DictReader(file)
                 contracts = [row for row in reader]
         except FileNotFoundError:
-            pass  
+            pass
         return contracts
 
     def save_contracts(self, contracts):
         """Salva a lista de contratos no arquivo CSV."""
         with open(self.file_path, mode='w', newline='') as file:
-            fieldnames = ["Descrição do Contrato", "Categoria", "Data de Vencimento", "Fornecedor"]
+            fieldnames = ["Descrição do Contrato", "Categoria", "Data de Vencimento", "Fornecedor", "Valor do Contrato", "Moeda"]
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(contracts)

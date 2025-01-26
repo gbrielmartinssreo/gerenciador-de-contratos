@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from datetime import datetime, timedelta
 from tkinter import ttk
+#from controllers.app_controller import AppController
 
 
 class FilterByDaysView(ctk.CTkFrame):
@@ -57,14 +58,32 @@ class FilterByDaysView(ctk.CTkFrame):
         for widget in self.table_frame.winfo_children():
             widget.destroy()
 
-        headers = ["Descrição do Contrato", "Categoria", "Data de Vencimento", "Fornecedor"]
+        headers = ["Descrição do Contrato", "Categoria", "Data de Vencimento", "Fornecedor", "Valor do Contrato", "Moeda", "Valor em Reais"]
+        cotacao_dolar, cotacao_euro, cotacao_btc = self.controller.get_cotacoes()
 
         tree = ttk.Treeview(self.table_frame, columns=headers, show="headings", height=10)
         for header in headers:
             tree.heading(header, text=header)
             tree.column(header, anchor="center", width=100)
-
+        
         for contract in contracts:
-            tree.insert("", "end", values=tuple(contract.values()))
+            valor_contrato = float(contract["Valor do Contrato"])
+            moeda = contract["Moeda"]
+            
+            valor_em_reais = self.converter_para_reais(valor_contrato, moeda, cotacao_dolar, cotacao_euro, cotacao_btc)
+            
+            tree.insert("", "end", values=(*contract.values(), f"R$ {valor_em_reais:.2f}"))
 
         tree.pack(fill="both", expand=True)
+    
+    def converter_para_reais(self, valor_contrato, moeda, cotacao_dolar, cotacao_euro, cotacao_btc):
+        if cotacao_dolar is None or cotacao_euro is None or cotacao_btc is None:
+            return valor_contrato
+        if moeda == "USD":
+            return valor_contrato * cotacao_dolar
+        elif moeda == "EUR":
+            return valor_contrato * cotacao_euro
+        elif moeda == "BTC":
+            return valor_contrato * cotacao_btc
+        else:
+            return valor_contrato

@@ -68,6 +68,14 @@ class AddContractView(ctk.CTkFrame):
         self.supplier_entry = ctk.CTkEntry(self, placeholder_text="Fornecedor")
         self.supplier_entry.pack(pady=5, padx=20, fill="x")
 
+        self.value_entry = ctk.CTkEntry(self, placeholder_text="Valor do Contrato")
+        self.value_entry.pack(pady=5, padx=20, fill="x")
+    
+        currencies = ["BRL", "USD", "EUR", "BTC"]
+        self.currency_combobox = ctk.CTkComboBox(self, values=currencies)
+        self.currency_combobox.pack(pady=5, padx=20, fill="x")
+        self.currency_combobox.set("BRL")
+
         save_button = ctk.CTkButton(self, text="Salvar Contrato", command=self.save_contract)
         save_button.pack(pady=10)
 
@@ -92,16 +100,25 @@ class AddContractView(ctk.CTkFrame):
         category = self.category_combobox.get()
         due_date = self.selected_date.get()
         supplier = self.supplier_entry.get()
-        
-        if not all([description, category, due_date, supplier, category != "Selecione uma categoria"]):
+        value = self.value_entry.get()
+        currency = self.currency_combobox.get()
+
+        if not all([description, category, due_date, supplier, value, currency, category != "Selecione uma categoria"]):
             messagebox.showerror("Erro", "Por favor, preencha todos os campos.")
             return
-
+        try:
+            float(value)
+        except ValueError:
+            messagebox.showerror("Erro", "Valor do contrato precisa ser numérico")
+            return
+        
         contract = {
             "Descrição do Contrato": description,
             "Categoria": category,
             "Data de Vencimento": due_date,
             "Fornecedor": supplier,
+            "Valor do Contrato": value,
+            "Moeda": currency
         }
         contract_controller = ContractController()
         contract_controller.add_contract(contract)
